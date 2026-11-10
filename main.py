@@ -709,23 +709,24 @@ if __name__ == "__main__":
     # uncomment and edit to pin specific models.
     template_bot = FallTemplateBot2026(
         research_reports_per_question=1,
-        predictions_per_research_report=5,
+        predictions_per_research_report=3,  # PrimeBOT: 3 in loc de 5, ca bugetul de $10 să țină tot sezonul
         use_research_summary_to_forecast=False,
         publish_reports_to_metaculus=publish_to_metaculus,
         folder_to_save_reports_to=None,
         skip_previously_forecasted_questions=True,
         extra_metadata_in_explanation=True,
-        # llms={
-        #     "default": GeneralLlm(
-        #         model="openrouter/openai/gpt-4o",
-        #         temperature=0.3,
-        #         timeout=40,
-        #         allowed_tries=2,
-        #     ),
-        #     "summarizer": "openai/gpt-4o-mini",
-        #     "researcher": "asknews/news-summaries",
-        #     "parser": "openai/gpt-4o-mini",
-        # },
+        # PrimeBOT: modele fixate explicit. Implicitul (openai/gpt-4o-search-preview)
+        # a fost retras de pe OpenRouter și făcea botul să cadă.
+        llms={
+            "default": GeneralLlm(
+                model="openrouter/openai/gpt-5-mini",
+                timeout=180,
+                allowed_tries=2,
+            ),
+            "summarizer": GeneralLlm(model="openrouter/openai/gpt-5-mini", timeout=120),
+            "researcher": GeneralLlm(model="openrouter/perplexity/sonar", timeout=120, allowed_tries=2),
+            "parser": GeneralLlm(model="openrouter/openai/gpt-5-mini", timeout=120),
+        },
     )
 
     # Per-mode tournament URL shown in the summary banner footer. These
