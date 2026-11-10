@@ -215,13 +215,14 @@ class FallTemplateBot2026(ForecastBot):
 
             Today is {datetime.now().strftime("%Y-%m-%d")}.
 
-            Before answering you write:
-            (a) The time left until the outcome to the question is known.
-            (b) The status quo outcome if nothing changed.
-            (c) A brief description of a scenario that results in a No outcome.
-            (d) A brief description of a scenario that results in a Yes outcome.
+            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
+            (1) POSITIVE: the strongest arguments and evidence that the outcome WILL be Yes.
+            (2) NEGATIVE: the strongest arguments and evidence that the outcome will be No. Argue this side as seriously as the positive one.
+            (3) THE PAST: how often similar events happened historically (the base rate / reference class), and what the status quo outcome is if nothing changes. Give a starting probability from this alone.
+            (4) THE FUTURE: how much time is left until the outcome is known, what has changed versus the past, upcoming scheduled events and current trends, and which way they push the starting probability.
+            (5) DECISION: start from the base rate in step 3, adjust it using steps 1, 2 and 4, and explain the size of each adjustment.
 
-            You write your rationale remembering that good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time.
+            You remember that good forecasters put extra weight on the status quo since the world changes slowly most of the time, and avoid extreme probabilities (below 3% or above 97%) unless the evidence is overwhelming.
             {self._get_conditional_disclaimer_if_necessary(question)}
 
             The last thing you write is your final answer as: "Probability: ZZ%", 0-100
@@ -285,10 +286,12 @@ class FallTemplateBot2026(ForecastBot):
 
             Today is {datetime.now().strftime("%Y-%m-%d")}.
 
-            Before answering you write:
-            (a) The time left until the outcome to the question is known.
-            (b) The status quo outcome if nothing changed.
-            (c) A description of a scenario that results in an unexpected outcome.
+            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
+            (1) POSITIVE: for the leading options, the strongest arguments that each one will happen.
+            (2) NEGATIVE: for the same options, the strongest arguments against each one.
+            (3) THE PAST: base rates from similar past cases, and the status quo outcome if nothing changed.
+            (4) THE FUTURE: time left until the outcome is known, what has changed, upcoming events and trends, and a scenario that results in an unexpected outcome.
+            (5) DECISION: start from the base rates, adjust using steps 1, 2 and 4, and explain the adjustments.
 
             {self._get_conditional_disclaimer_if_necessary(question)}
             You write your rationale remembering that (1) good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time, and (2) good forecasters leave some moderate probability on most options to account for unexpected outcomes.
@@ -371,13 +374,12 @@ class FallTemplateBot2026(ForecastBot):
             - Never use scientific notation.
             - Always start with a smaller number (more negative if negative) and then increase from there. The value for percentile 10 should always be less than the value for percentile 20, and so on.
 
-            Before answering you write:
-            (a) The time left until the outcome to the question is known.
-            (b) The outcome if nothing changed.
-            (c) The outcome if the current trend continued.
-            (d) The expectations of experts and markets.
-            (e) A brief description of an unexpected scenario that results in a low outcome.
-            (f) A brief description of an unexpected scenario that results in a high outcome.
+            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
+            (1) POSITIVE / HIGH SIDE: the strongest arguments for a high outcome, and an unexpected scenario that results in a high outcome.
+            (2) NEGATIVE / LOW SIDE: the strongest arguments for a low outcome, and an unexpected scenario that results in a low outcome.
+            (3) THE PAST: historical values and typical variation in similar periods, and the outcome if nothing changed.
+            (4) THE FUTURE: time left until the outcome is known, the outcome if the current trend continued, expectations of experts and markets, and upcoming events.
+            (5) DECISION: build the distribution starting from the past and the current trend, widened by steps 1 and 2.
 
             {self._get_conditional_disclaimer_if_necessary(question)}
             You remind yourself that good forecasters are humble and set wide 90/10 confidence intervals to account for unknown unknowns.
@@ -466,13 +468,12 @@ class FallTemplateBot2026(ForecastBot):
             - Always start with a lower date chronologically and then increase from there.
             - Do NOT forget this. The dates must be written in chronological order starting at the earliest time at percentile 10 and increasing from there.
 
-            Before answering you write:
-            (a) The time left until the outcome to the question is known.
-            (b) The outcome if nothing changed.
-            (c) The outcome if the current trend continued.
-            (d) The expectations of experts and markets.
-            (e) A brief description of an unexpected scenario that results in a low outcome.
-            (f) A brief description of an unexpected scenario that results in a high outcome.
+            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
+            (1) POSITIVE / HIGH SIDE: the strongest arguments for a high outcome, and an unexpected scenario that results in a high outcome.
+            (2) NEGATIVE / LOW SIDE: the strongest arguments for a low outcome, and an unexpected scenario that results in a low outcome.
+            (3) THE PAST: historical values and typical variation in similar periods, and the outcome if nothing changed.
+            (4) THE FUTURE: time left until the outcome is known, the outcome if the current trend continued, expectations of experts and markets, and upcoming events.
+            (5) DECISION: build the distribution starting from the past and the current trend, widened by steps 1 and 2.
 
             {self._get_conditional_disclaimer_if_necessary(question)}
             You remind yourself that good forecasters are humble and set wide 90/10 confidence intervals to account for unknown unknowns.
