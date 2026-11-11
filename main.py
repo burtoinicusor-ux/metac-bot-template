@@ -215,14 +215,15 @@ class FallTemplateBot2026(ForecastBot):
 
             Today is {datetime.now().strftime("%Y-%m-%d")}.
 
-            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
-            (1) POSITIVE: the strongest arguments and evidence that the outcome WILL be Yes.
-            (2) NEGATIVE: the strongest arguments and evidence that the outcome will be No. Argue this side as seriously as the positive one.
-            (3) THE PAST: how often similar events happened historically (the base rate / reference class), and what the status quo outcome is if nothing changes. Give a starting probability from this alone.
-            (4) THE FUTURE: how much time is left until the outcome is known, what has changed versus the past, upcoming scheduled events and current trends, and which way they push the starting probability.
-            (5) DECISION: start from the base rate in step 3, adjust it using steps 1, 2 and 4, and explain the size of each adjustment.
+            Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
+            STEP 1 - PAST: How often did this happen in similar past cases (the reference class)? Name the reference class. RESULT: a base rate as a percentage.
+            STEP 2 - PRESENT: What do the news from the last few days say, and what is the outcome if nothing changes (the status quo)? RESULT: one sentence stating the status quo outcome.
+            STEP 3 - CASE FOR YES: The single strongest argument that the outcome will be Yes. RESULT: one or two sentences.
+            STEP 4 - CASE FOR NO: The single strongest argument that the outcome will be No. RESULT: one or two sentences.
+            STEP 5 - TIME LEFT: How much time is left until the deadline, what would have to happen before then to change the situation, and how likely that is. RESULT: the event needed and its probability as a percentage.
+            STEP 6 - FINAL NUMBER: Start from the base rate in Step 1 and adjust it using Steps 2 to 5. Write each adjustment with its sign and size (for example: base 20%, +5% because..., -8% because...). RESULT: the final percentage.
 
-            You remember that good forecasters put extra weight on the status quo since the world changes slowly most of the time, and avoid extreme probabilities (below 3% or above 97%) unless the evidence is overwhelming.
+            Avoid extreme probabilities (below 3% or above 97%) unless the evidence is overwhelming.
             {self._get_conditional_disclaimer_if_necessary(question)}
 
             The last thing you write is your final answer as: "Probability: ZZ%", 0-100
@@ -286,12 +287,13 @@ class FallTemplateBot2026(ForecastBot):
 
             Today is {datetime.now().strftime("%Y-%m-%d")}.
 
-            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
-            (1) POSITIVE: for the leading options, the strongest arguments that each one will happen.
-            (2) NEGATIVE: for the same options, the strongest arguments against each one.
-            (3) THE PAST: base rates from similar past cases, and the status quo outcome if nothing changed.
-            (4) THE FUTURE: time left until the outcome is known, what has changed, upcoming events and trends, and a scenario that results in an unexpected outcome.
-            (5) DECISION: start from the base rates, adjust using steps 1, 2 and 4, and explain the adjustments.
+            Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
+            STEP 1 - PAST: How often each option (or each kind of option) won in similar past cases. RESULT: a base-rate percentage per option.
+            STEP 2 - PRESENT: What the news from the last few days say, and which option wins if nothing changes. RESULT: one sentence naming the status quo option.
+            STEP 3 - CASE FOR THE LEADER: The strongest argument for the most likely option. RESULT: one or two sentences.
+            STEP 4 - CASE AGAINST THE LEADER: The strongest argument for an upset, naming which option benefits. RESULT: one or two sentences.
+            STEP 5 - TIME LEFT: Time left until the outcome is known, what would have to happen to change the order, and how likely that is. RESULT: the event needed and its probability as a percentage.
+            STEP 6 - FINAL NUMBERS: Start from the Step 1 base rates and adjust using Steps 2 to 5, writing each adjustment with its sign and size. RESULT: the final probabilities.
 
             {self._get_conditional_disclaimer_if_necessary(question)}
             You write your rationale remembering that (1) good forecasters put extra weight on the status quo outcome since the world changes slowly most of the time, and (2) good forecasters leave some moderate probability on most options to account for unexpected outcomes.
@@ -374,12 +376,13 @@ class FallTemplateBot2026(ForecastBot):
             - Never use scientific notation.
             - Always start with a smaller number (more negative if negative) and then increase from there. The value for percentile 10 should always be less than the value for percentile 20, and so on.
 
-            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
-            (1) POSITIVE / HIGH SIDE: the strongest arguments for a high outcome, and an unexpected scenario that results in a high outcome.
-            (2) NEGATIVE / LOW SIDE: the strongest arguments for a low outcome, and an unexpected scenario that results in a low outcome.
-            (3) THE PAST: historical values and typical variation in similar periods, and the outcome if nothing changed.
-            (4) THE FUTURE: time left until the outcome is known, the outcome if the current trend continued, expectations of experts and markets, and upcoming events.
-            (5) DECISION: build the distribution starting from the past and the current trend, widened by steps 1 and 2.
+            Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
+            STEP 1 - PAST: Historical values and typical variation over similar periods. RESULT: a historical median and a typical range.
+            STEP 2 - PRESENT: What the news and data from the last few days say, the latest value, and the outcome if nothing changes. RESULT: the status quo value.
+            STEP 3 - CASE FOR HIGH: The strongest argument for a high outcome, with an unexpected high scenario. RESULT: one or two sentences.
+            STEP 4 - CASE FOR LOW: The strongest argument for a low outcome, with an unexpected low scenario. RESULT: one or two sentences.
+            STEP 5 - TIME LEFT: Time left until the outcome is known, the outcome if the current trend continues, and expectations of experts and markets. RESULT: the trend-continued value.
+            STEP 6 - FINAL DISTRIBUTION: Start from Steps 1 and 2, shift toward Step 5, and widen using Steps 3 and 4. RESULT: the percentiles.
 
             {self._get_conditional_disclaimer_if_necessary(question)}
             You remind yourself that good forecasters are humble and set wide 90/10 confidence intervals to account for unknown unknowns.
@@ -468,12 +471,13 @@ class FallTemplateBot2026(ForecastBot):
             - Always start with a lower date chronologically and then increase from there.
             - Do NOT forget this. The dates must be written in chronological order starting at the earliest time at percentile 10 and increasing from there.
 
-            Before answering, you reason in five steps (the PrimeBOT method). Keep each step short and concrete:
-            (1) POSITIVE / HIGH SIDE: the strongest arguments for a high outcome, and an unexpected scenario that results in a high outcome.
-            (2) NEGATIVE / LOW SIDE: the strongest arguments for a low outcome, and an unexpected scenario that results in a low outcome.
-            (3) THE PAST: historical values and typical variation in similar periods, and the outcome if nothing changed.
-            (4) THE FUTURE: time left until the outcome is known, the outcome if the current trend continued, expectations of experts and markets, and upcoming events.
-            (5) DECISION: build the distribution starting from the past and the current trend, widened by steps 1 and 2.
+            Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
+            STEP 1 - PAST: Historical values and typical variation over similar periods. RESULT: a historical median and a typical range.
+            STEP 2 - PRESENT: What the news and data from the last few days say, the latest value, and the outcome if nothing changes. RESULT: the status quo value.
+            STEP 3 - CASE FOR HIGH: The strongest argument for a high outcome, with an unexpected high scenario. RESULT: one or two sentences.
+            STEP 4 - CASE FOR LOW: The strongest argument for a low outcome, with an unexpected low scenario. RESULT: one or two sentences.
+            STEP 5 - TIME LEFT: Time left until the outcome is known, the outcome if the current trend continues, and expectations of experts and markets. RESULT: the trend-continued value.
+            STEP 6 - FINAL DISTRIBUTION: Start from Steps 1 and 2, shift toward Step 5, and widen using Steps 3 and 4. RESULT: the percentiles.
 
             {self._get_conditional_disclaimer_if_necessary(question)}
             You remind yourself that good forecasters are humble and set wide 90/10 confidence intervals to account for unknown unknowns.
