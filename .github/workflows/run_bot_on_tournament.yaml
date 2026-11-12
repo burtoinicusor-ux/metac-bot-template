@@ -2,6 +2,9 @@ name: Forecast on new AI tournament questions
 
 on:
   workflow_dispatch:
+  push:
+    paths:
+      - ".github/forecast-trigger" # PrimeBOT: Claude pornește botul modificând acest fișier (o dată pe oră)
   schedule:
     - cron: "3,13,23,33,43,53 * * * *" # PrimeBOT: la 10 min, decalat de orele rotunde (GitHub sare des rulări programate)
 
