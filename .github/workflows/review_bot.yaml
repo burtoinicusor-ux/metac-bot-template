@@ -6,8 +6,11 @@ on:
       days:
         description: "How many days back to look for resolved questions"
         default: "30"
+  push:
+    paths:
+      - ".github/review-trigger" # PrimeBOT: Claude rulează verificarea modificând acest fișier
   schedule:
-    - cron: "0 6 * * 1" # weekly, Monday morning
+    - cron: "17 7 * * *" # PrimeBOT: zilnic, dimineața
 
 # Add concurrency group to prevent parallel runs
 concurrency:
@@ -20,7 +23,7 @@ concurrency:
 # true to turn it on. Running it by hand always works.
 jobs:
   review_job:
-    if: vars.REVIEW_BOT_ENABLED == 'true' || github.event_name == 'workflow_dispatch'
+    if: vars.REVIEW_BOT_ENABLED == 'true' || github.event_name == 'workflow_dispatch' || github.event_name == 'push' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
     steps:
       - name: Check out repository
