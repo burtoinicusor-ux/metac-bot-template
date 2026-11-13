@@ -332,6 +332,22 @@ class FallTemplateBot2026(ForecastBot):
             additional_instructions=parsing_instructions,
         )
 
+        # PrimeBOT: modelul mai rescrie numele opțiunilor (ex. ">10 to 20 points" în loc de
+        # ">10 points and <20 points"), ceea ce strica predicția. Le aducem la numele exacte.
+        import difflib
+
+        exact = list(question.options)
+        used = {o.option_name for o in predicted_option_list.predicted_options if o.option_name in exact}
+        for opt in predicted_option_list.predicted_options:
+            if opt.option_name not in exact:
+                free = [e for e in exact if e not in used]
+                match = difflib.get_close_matches(opt.option_name, free, n=1, cutoff=0.0)
+                if match:
+                    used.add(match[0])
+                if match:
+                    logger.info(f"Renamed option '{opt.option_name}' -> '{match[0]}'")
+                    opt.option_name = match[0]
+
         logger.info(
             f"Forecasted URL {question.page_url} with prediction: {predicted_option_list}."
         )
