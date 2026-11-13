@@ -545,6 +545,16 @@ class FallTemplateBot2026(ForecastBot):
             )
             for percentile in date_percentile_list
         ]
+        # PrimeBOT: fără ancoră, biblioteca întinde primele ~10% de probabilitate liniar de la
+        # limita de jos a întrebării (adesea în trecut) până la primul percentil, adică pe date
+        # imposibile. Ancorăm distribuția la "acum" cu 1%, ca să nu mai irosim probabilitate.
+        now_ts = datetime.now(timezone.utc).timestamp()
+        if percentile_list and question.lower_bound.timestamp() < now_ts:
+            first = min(percentile_list, key=lambda p: p.percentile)
+            if first.value > now_ts and first.percentile > 0.02:
+                percentile_list = [Percentile(percentile=0.01, value=now_ts)] + sorted(
+                    percentile_list, key=lambda p: p.percentile
+                )
         prediction = NumericDistribution.from_question(percentile_list, question)
         logger.info(
             f"Forecasted URL {question.page_url} with prediction: {prediction.declared_percentiles}."
