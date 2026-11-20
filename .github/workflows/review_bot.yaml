@@ -9,8 +9,6 @@ on:
   push:
     paths:
       - ".github/review-trigger" # PrimeBOT: Claude rulează verificarea modificând acest fișier
-  schedule:
-    - cron: "17 7 * * *" # PrimeBOT: zilnic, dimineața
 
 # Add concurrency group to prevent parallel runs
 concurrency:
