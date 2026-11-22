@@ -42,4 +42,11 @@ jobs:
           OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ASKNEWS_CLIENT_ID: ${{ secrets.ASKNEWS_CLIENT_ID }}
-          ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}
+          ASKNEWS_SECRET: ${{ secrets.ASKNEWS_SECRET }}      - name: Check OpenRouter balance
+        if: always()
+        run: |
+          curl -s https://openrouter.ai/api/v1/credits -H "Authorization: Bearer $OPENROUTER_API_KEY" \
+            | python3 -c "import sys,json; d=json.load(sys.stdin).get('data',{}); r=d.get('total_credits',0)-d.get('total_usage',0); print(f'OPENROUTER_REMAINING={r:.2f}'); print(f'OPENROUTER_USED={d.get(\"total_usage\",0):.2f}')" \
+            || echo "OPENROUTER_REMAINING=unknown"
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
