@@ -13,13 +13,20 @@ jobs:
           METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
         run: |
           python3 - <<'PY'
-          import os, json, urllib.request, datetime as dt
+          import os, json, urllib.request, urllib.error, datetime as dt
           H={"Authorization":f"Token {os.environ['METACULUS_TOKEN']}"}
+          import time
           def get(u):
-              return json.load(urllib.request.urlopen(urllib.request.Request(u,headers=H)))
+              for i in range(8):
+                  try:
+                      return json.load(urllib.request.urlopen(urllib.request.Request(u,headers=H)))
+                  except urllib.error.HTTPError as e:
+                      if e.code!=429: raise
+                      time.sleep(15*(i+1))
+              raise SystemExit("rate limited")
           posts=[]; u="https://www.metaculus.com/api/posts/?tournaments=fall-futureeval-2026&limit=100&statuses=open&statuses=closed&statuses=resolved"
           while u:
-              d=get(u); posts+=d["results"]; u=d.get("next")
+              d=get(u); posts+=d["results"]; u=d.get("next"); time.sleep(3)
           me=0; dates=[]; resolved=0
           for p in posts:
               q=p.get("question") or {}
