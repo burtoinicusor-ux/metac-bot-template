@@ -1,0 +1,36 @@
+name: Count tournament questions
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - ".github/count-trigger"
+jobs:
+  count:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Count
+        env:
+          METACULUS_TOKEN: ${{ secrets.METACULUS_TOKEN }}
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, datetime as dt
+          H={"Authorization":f"Token {os.environ['METACULUS_TOKEN']}"}
+          def get(u):
+              return json.load(urllib.request.urlopen(urllib.request.Request(u,headers=H)))
+          posts=[]; u="https://www.metaculus.com/api/posts/?tournaments=fall-futureeval-2026&limit=100&statuses=open&statuses=closed&statuses=resolved"
+          while u:
+              d=get(u); posts+=d["results"]; u=d.get("next")
+          me=0; dates=[]; resolved=0
+          for p in posts:
+              q=p.get("question") or {}
+              dates.append(p.get("open_time") or q.get("open_time") or "")
+              if p.get("status")=="resolved": resolved+=1
+              if q.get("my_forecasts",{}).get("latest") or (q.get("my_forecasts",{}).get("history")): me+=1
+          dates=sorted(x for x in dates if x)
+          print("TOTAL_QUESTIONS", len(posts))
+          print("RESOLVED", resolved)
+          print("MINE", me)
+          print("FIRST_OPEN", dates[0] if dates else None, "LAST_OPEN", dates[-1] if dates else None)
+          before=sum(1 for x in dates if x<"2026-11-12")
+          print("OPENED_BEFORE_NOV12", before)
+          PY
