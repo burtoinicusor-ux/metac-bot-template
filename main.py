@@ -1,3 +1,4 @@
+import os
 import argparse
 import asyncio
 import logging
@@ -779,6 +780,10 @@ if __name__ == "__main__":
     # exceptions, since return_exceptions=True) which then flows into the
     # summary printers below.
     client = MetaculusClient()
+    if os.getenv("PRIMEBOT_REFORECAST", "").lower() == "true":
+        # PrimeBOT: rulare unică pe toate întrebările deschise, cu regulile noi
+        template_bot.skip_previously_forecasted_questions = False
+        logger.info("PrimeBOT: re-forecasting all open questions")
     if run_mode == "tournament":
         seasonal_tournament_reports = asyncio.run(
             template_bot.forecast_on_tournament(
