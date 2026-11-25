@@ -177,6 +177,11 @@ class FallTemplateBot2026(ForecastBot):
             To be a great assistant, you generate a concise but detailed rundown of the most relevant news, including if the question would resolve Yes or No based on current information.
             You do not produce forecasts yourself.
 
+            Your rundown MUST also contain these three sections:
+            1. SCHEDULED EVENTS: Every event already planned or scheduled before the question's deadline that could make it resolve (summits, official visits, meetings, votes, auctions, data releases, court dates, elections), with dates and who is expected to attend or take part.
+            2. RECENT FREQUENCY: How often this exact kind of thing happened for the SAME people, countries or organizations in the last 12-24 months, with dates (for example, how many times these two leaders spoke or met, or how many sales above this price happened).
+            3. ACTOR TRACK RECORD: What these specific people or organizations usually do in this situation (for example, who a country usually sends to this kind of summit).
+
             Question:
             {question.question_text}
 
@@ -216,14 +221,15 @@ class FallTemplateBot2026(ForecastBot):
             Today is {datetime.now().strftime("%Y-%m-%d")}.
 
             Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
-            STEP 1 - PAST: How often did this happen in similar past cases (the reference class)? Name the reference class. RESULT: a base rate as a percentage.
-            STEP 2 - PRESENT: What do the news from the last few days say, and what is the outcome if nothing changes (the status quo)? RESULT: one sentence stating the status quo outcome.
+            STEP 1 - PAST: How often did this happen in similar past cases (the reference class)? First use the record of the SAME people or organizations in the last 1-2 years (see RECENT FREQUENCY and ACTOR TRACK RECORD in the research), and only then the general class. Name the reference class. RESULT: a base rate as a percentage.
+            STEP 2 - PRESENT: What do the news from the last few days say, which SCHEDULED EVENTS before the deadline could make it happen, and what is the outcome if nothing changes (the status quo)? RESULT: one sentence stating the status quo outcome, naming any scheduled event that matters.
             STEP 3 - CASE FOR YES: The single strongest argument that the outcome will be Yes. RESULT: one or two sentences.
             STEP 4 - CASE FOR NO: The single strongest argument that the outcome will be No. RESULT: one or two sentences.
             STEP 5 - TIME LEFT: How much time is left until the deadline, what would have to happen before then to change the situation, and how likely that is. RESULT: the event needed and its probability as a percentage.
             STEP 6 - FINAL NUMBER: Start from the base rate in Step 1 and adjust it using Steps 2 to 5. Write each adjustment with its sign and size (for example: base 20%, +5% because..., -8% because...). RESULT: the final percentage.
 
             Avoid extreme probabilities (below 3% or above 97%) unless the evidence is overwhelming.
+            "Not announced yet" is weak evidence: visits, delegations, phone calls and similar things are usually announced only days before they happen. Do not lower the probability much for missing confirmation when a scheduled event or a frequent recent pattern makes it likely.
             {self._get_conditional_disclaimer_if_necessary(question)}
 
             The last thing you write is your final answer as: "Probability: ZZ%", 0-100
@@ -288,8 +294,8 @@ class FallTemplateBot2026(ForecastBot):
             Today is {datetime.now().strftime("%Y-%m-%d")}.
 
             Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
-            STEP 1 - PAST: How often each option (or each kind of option) won in similar past cases. RESULT: a base-rate percentage per option.
-            STEP 2 - PRESENT: What the news from the last few days say, and which option wins if nothing changes. RESULT: one sentence naming the status quo option.
+            STEP 1 - PAST: How often each option (or each kind of option) won in similar past cases, using first the record of the same people or organizations in the last 1-2 years. RESULT: a base-rate percentage per option.
+            STEP 2 - PRESENT: What the news from the last few days say, which scheduled events before the deadline could change the result, and which option wins if nothing changes. RESULT: one sentence naming the status quo option.
             STEP 3 - CASE FOR THE LEADER: The strongest argument for the most likely option. RESULT: one or two sentences.
             STEP 4 - CASE AGAINST THE LEADER: The strongest argument for an upset, naming which option benefits. RESULT: one or two sentences.
             STEP 5 - TIME LEFT: Time left until the outcome is known, what would have to happen to change the order, and how likely that is. RESULT: the event needed and its probability as a percentage.
@@ -393,8 +399,8 @@ class FallTemplateBot2026(ForecastBot):
             - Always start with a smaller number (more negative if negative) and then increase from there. The value for percentile 10 should always be less than the value for percentile 20, and so on.
 
             Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
-            STEP 1 - PAST: Historical values and typical variation over similar periods. RESULT: a historical median and a typical range.
-            STEP 2 - PRESENT: What the news and data from the last few days say, the latest value, and the outcome if nothing changes. RESULT: the status quo value.
+            STEP 1 - PAST: Historical values and typical variation over similar periods, using the most recent 1-2 years first. RESULT: a historical median and a typical range.
+            STEP 2 - PRESENT: What the news and data from the last few days say, the latest value, scheduled events before the deadline that could move it, and the outcome if nothing changes. RESULT: the status quo value.
             STEP 3 - CASE FOR HIGH: The strongest argument for a high outcome, with an unexpected high scenario. RESULT: one or two sentences.
             STEP 4 - CASE FOR LOW: The strongest argument for a low outcome, with an unexpected low scenario. RESULT: one or two sentences.
             STEP 5 - TIME LEFT: Time left until the outcome is known, the outcome if the current trend continues, and expectations of experts and markets. RESULT: the trend-continued value.
@@ -488,8 +494,8 @@ class FallTemplateBot2026(ForecastBot):
             - Do NOT forget this. The dates must be written in chronological order starting at the earliest time at percentile 10 and increasing from there.
 
             Before answering, you MUST write these six steps in this exact order, each under its own label, each ending with the written result asked for:
-            STEP 1 - PAST: Historical values and typical variation over similar periods. RESULT: a historical median and a typical range.
-            STEP 2 - PRESENT: What the news and data from the last few days say, the latest value, and the outcome if nothing changes. RESULT: the status quo value.
+            STEP 1 - PAST: Historical values and typical variation over similar periods, using the most recent 1-2 years first. RESULT: a historical median and a typical range.
+            STEP 2 - PRESENT: What the news and data from the last few days say, the latest value, scheduled events before the deadline that could move it, and the outcome if nothing changes. RESULT: the status quo value.
             STEP 3 - CASE FOR HIGH: The strongest argument for a high outcome, with an unexpected high scenario. RESULT: one or two sentences.
             STEP 4 - CASE FOR LOW: The strongest argument for a low outcome, with an unexpected low scenario. RESULT: one or two sentences.
             STEP 5 - TIME LEFT: Time left until the outcome is known, the outcome if the current trend continues, and expectations of experts and markets. RESULT: the trend-continued value.
