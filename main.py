@@ -393,6 +393,7 @@ class FallTemplateBot2026(ForecastBot):
 
             {lower_bound_message}
             {upper_bound_message}
+            The question writers set this range around the values they consider plausible, using the latest data. If most of your distribution falls outside it, your data is probably outdated or in the wrong units: re-check the latest company guidance, analyst consensus and recent values, and keep most of your distribution inside the range unless you have strong, recent evidence against it.
 
             Formatting Instructions:
             - Please notice the units requested and give your answer in these units (e.g. whether you represent a number as 1,000,000 or 1 million).
@@ -487,6 +488,7 @@ class FallTemplateBot2026(ForecastBot):
 
             {lower_bound_message}
             {upper_bound_message}
+            The question writers set this range around the values they consider plausible, using the latest data. If most of your distribution falls outside it, your data is probably outdated or in the wrong units: re-check the latest company guidance, analyst consensus and recent values, and keep most of your distribution inside the range unless you have strong, recent evidence against it.
 
             Formatting Instructions:
             - This is a date question, and as such, the answer must be expressed in terms of dates.
